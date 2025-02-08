@@ -49,7 +49,7 @@ export default async function LoginPage() {
               href={"/login?demo=true"}
               className="flex items-center justify-center gap-1 px-4 py-2 text-sm text-gray-700 hover:text-gray-100 dark:hover:bg-gray-600 z-50 "
             >
-              Demo Login
+              View Demo
             </Link>
             <Link
               href={"/password/reset"}

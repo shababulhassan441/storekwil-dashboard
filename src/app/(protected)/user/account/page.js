@@ -6,11 +6,14 @@ import { cookies } from "next/headers";
 
 export default async function AccountPage() {
   cookies();
-  const {points,level,labels,tiers}=await fetchUserLevel()
-  
-  return <>
-<LevelProgress currentLevel={level} points={points} labels={labels} />
-<LevelMetrics tiers={tiers}/>
-  </>
-  
+  const userLevel = await fetchUserLevel();
+  const { points, level, labels, tiers } = userLevel;
+
+
+  return (
+    <>
+      <LevelProgress currentLevel={level} points={points} labels={labels} />
+      <LevelMetrics tiers={tiers} />
+    </>
+  );
 }

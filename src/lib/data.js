@@ -1,4 +1,8 @@
-import { createAdminClient, createSessionClient, storekwilAdminClient } from "@/appwrite/config";
+import {
+  createAdminClient,
+  createSessionClient,
+  storekwilAdminClient,
+} from "@/appwrite/config";
 import { cookies } from "next/headers";
 import { Query } from "node-appwrite";
 import { formatCurrency } from "./utils";
@@ -748,7 +752,6 @@ export async function fetchAllCompaigns() {
   }
 }
 
-
 //Storekwill user function
 export async function fetchUserCardData() {
   try {
@@ -835,6 +838,27 @@ export async function fetchUserLeadsAnalytics() {
   try {
     const userDetail = await fetchUserDetails();
 
+    // Static data for the demo user
+    const staticDemoData = [
+      { month: "Jan", userRegistrations: 5 },
+      { month: "Feb", userRegistrations: 8 },
+      { month: "Mar", userRegistrations: 12 },
+      { month: "Apr", userRegistrations: 15 },
+      { month: "May", userRegistrations: 10 },
+      { month: "Jun", userRegistrations: 20 },
+      { month: "Jul", userRegistrations: 18 },
+      { month: "Aug", userRegistrations: 25 },
+      { month: "Sep", userRegistrations: 22 },
+      { month: "Oct", userRegistrations: 30 },
+      { month: "Nov", userRegistrations: 28 },
+      { month: "Dec", userRegistrations: 35 },
+    ];
+
+    // Return static data if the user is the demo user
+    if (userDetail.email === "demo@storekwil.com") {
+      return staticDemoData;
+    }
+
     // Initialize an object to store lead counts for each month
     const monthlyData = {
       Jan: 0,
@@ -880,6 +904,86 @@ export async function fetchUserLeadsAnalytics() {
 export async function fetchUserLatestRegistrations() {
   try {
     const userDetail = await fetchUserDetails();
+
+
+    // Static data for the demo user
+    const staticDemoData = [
+      {
+        firstName: "John",
+        lastName: "Doe",
+        company: "Demo Corp",
+        country: "USA",
+        referralCode: "DEMO123",
+        isRefferedLead: false,
+        refferedBy: null,
+        email: "john.doe@example.com",
+        phone: "123456789",
+        $id: "demo1",
+        $createdAt: "2024-11-26T07:04:19.457+00:00",
+        $updatedAt: "2024-11-26T11:28:01.176+00:00",
+      },
+      {
+        firstName: "Jane",
+        lastName: "Smith",
+        company: "Tech Solutions",
+        country: "UK",
+        referralCode: "JANE456",
+        isRefferedLead: true,
+        refferedBy: "demo1",
+        email: "jane.smith@example.com",
+        phone: "987654321",
+        $id: "demo2",
+        $createdAt: "2024-11-27T10:12:39.365+00:00",
+        $updatedAt: "2024-11-27T10:12:39.365+00:00",
+      },
+      {
+        firstName: "Alice",
+        lastName: "Brown",
+        company: "Global Web",
+        country: "Canada",
+        referralCode: "ALICE789",
+        isRefferedLead: false,
+        refferedBy: null,
+        email: "alice.brown@example.com",
+        phone: "555123456",
+        $id: "demo3",
+        $createdAt: "2024-12-01T08:54:33.534+00:00",
+        $updatedAt: "2024-12-01T08:54:33.534+00:00",
+      },
+      {
+        firstName: "Michael",
+        lastName: "Lee",
+        company: "NextGen Ltd",
+        country: "Australia",
+        referralCode: "MICHAEL567",
+        isRefferedLead: true,
+        refferedBy: "demo3",
+        email: "michael.lee@example.com",
+        phone: "666987654",
+        $id: "demo4",
+        $createdAt: "2024-12-05T10:33:03.506+00:00",
+        $updatedAt: "2024-12-05T10:33:03.506+00:00",
+      },
+      {
+        firstName: "Sophia",
+        lastName: "Wilson",
+        company: "InnovateX",
+        country: "Germany",
+        referralCode: "SOPHIA234",
+        isRefferedLead: false,
+        refferedBy: null,
+        email: "sophia.wilson@example.com",
+        phone: "777654321",
+        $id: "demo5",
+        $createdAt: "2024-12-10T12:45:22.123+00:00",
+        $updatedAt: "2024-12-10T12:45:22.123+00:00",
+      },
+    ];
+
+    // Return static data if the user is the demo user
+    if (userDetail.email === "demo@storekwil.com") {
+      return staticDemoData;
+    }
 
     // Sort the leads by creation date in descending order and take the first 5 entries
     const latestLeads = userDetail.lead
@@ -939,6 +1043,50 @@ export async function fetchUserDetails() {
 export async function fetchUserLevel() {
   try {
     const userDetail = await fetchUserDetails();
+
+     // Return static data if the user is a demo user
+     if (userDetail.email === "demo@storekwil.com") {
+      return {
+        points: 1002,
+        level: 2,
+        labels: ["Silver", "Bronze", "Gold"],
+        tiers: [
+          {
+            label: "Silver",
+            threshold: 100,
+            "$id": "67457ec1000c57571f63",
+            "$createdAt": "2024-11-26T07:54:41.214+00:00",
+            "$updatedAt": "2024-11-26T08:19:19.008+00:00",
+            "$permissions": [],
+            "$databaseId": "6745610e000cef76158e",
+            "$collectionId": "67457c890015b2988f6b"
+          },
+          {
+            label: "Bronze",
+            threshold: 1002,
+            "$id": "67457ecb00132fca3551",
+            "$createdAt": "2024-11-26T07:54:51.323+00:00",
+            "$updatedAt": "2024-11-26T17:45:56.137+00:00",
+            "$permissions": [],
+            "$databaseId": "6745610e000cef76158e",
+            "$collectionId": "67457c890015b2988f6b"
+          },
+          {
+            label: "Gold",
+            threshold: 2500,
+            "$id": "67457ed30027ee2a4e16",
+            "$createdAt": "2024-11-26T07:54:59.656+00:00",
+            "$updatedAt": "2024-11-26T16:24:04.262+00:00",
+            "$permissions": [],
+            "$databaseId": "6745610e000cef76158e",
+            "$collectionId": "67457c890015b2988f6b"
+          }
+        ],
+        code: "DEMO6762"
+      };
+    }
+
+
     const tiers = await fetchAllTiers();
 
     // Calculate the user's total points
@@ -1084,7 +1232,6 @@ export async function fetchAllUsers(filters = {}) {
       );
     }
 
-
     // // Ordering
     // const orderQuery =
     //   order === "desc"
@@ -1143,8 +1290,6 @@ export async function fetchAllUsers(filters = {}) {
   }
 }
 
-
-
 export async function fetchAllWaitlistUsers(filters = {}) {
   const {
     query = "",
@@ -1162,7 +1307,7 @@ export async function fetchAllWaitlistUsers(filters = {}) {
   } = filters;
 
   try {
-    const {  databases } = await storekwilAdminClient();
+    const { databases } = await storekwilAdminClient();
     const queryFilters = [];
 
     // Query by text and type
@@ -1195,7 +1340,6 @@ export async function fetchAllWaitlistUsers(filters = {}) {
       process.env.NEXT_PUBLIC_COLLECTION_ID_WAITLIST,
       queryFilters
     );
-
 
     return response.documents;
   } catch (error) {

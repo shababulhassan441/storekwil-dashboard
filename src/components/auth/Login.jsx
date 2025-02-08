@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import { BiSolidError } from "react-icons/bi";
@@ -13,6 +15,18 @@ const initialState = {
 
 const Login = () => {
   const [state, formAction] = useFormState(createLoginSession, initialState);
+  const searchParams = useSearchParams();
+  const isDemo = searchParams.get("demo") === "true";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (isDemo) {
+      setEmail("demo@storekwil.com");
+      setPassword("Demo@1234");
+    }
+  }, [isDemo]);
   return (
     <div className="mx-4 md:max-w-[400px] w-full self-center justify-self-center bg-white/[0.34] backdrop-blur-md rounded-t-lg shadow-[0_0_30px_0_rgba(0,0,0,0.05)] ">
       <div className="p-6 pb-0">
@@ -34,12 +48,16 @@ const Login = () => {
             type="email"
             name="email"
             placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             label="Password"
             placeholder="Enter Your Password"
             type="password"
             name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           {/* <div className="flex items-center justify-start gap-4 mt-2 ">

@@ -1,8 +1,13 @@
-import { fetchCardDataCases, fetchAdminCardData, fetchUserCardData, fetchUserInsights } from "@/lib/data";
+import {
+  fetchCardDataCases,
+  fetchAdminCardData,
+  fetchUserCardData,
+  fetchUserInsights,
+  fetchUserDetails,
+} from "@/lib/data";
 import { SiGraphql } from "react-icons/si";
 import { TbChartInfographic } from "react-icons/tb";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-
 
 import { FaCoins } from "react-icons/fa";
 import { FaHandHoldingDollar } from "react-icons/fa6";
@@ -42,10 +47,10 @@ const iconMap = {
   direct: TbChartInfographic, // Individual user icon for lawyers
   reffered: SiGraphql, // Removed user icon representing victims
   monthly: MdOutlineCalendarMonth, // General user icon for perpetrators
-  points:FaCoins,
-  available:FaHandHoldingDollar,
-  used:IoCashOutline,
-  leads:MdLeaderboard,
+  points: FaCoins,
+  available: FaHandHoldingDollar,
+  used: IoCashOutline,
+  leads: MdLeaderboard,
 };
 
 const HRCardData = async () => {
@@ -76,11 +81,26 @@ const AdminCardData = async () => {
 };
 const UserCardData = async () => {
   cookies();
-  const { points, leads, available, used } = await fetchUserCardData();
+  // const { points, leads, available, used } = await fetchUserCardData();
+  // Fetch user data (assuming you have a way to get user details)
+  const user = await fetchUserDetails(); // Make sure to replace this with your actual user-fetching function
+
+  let points, leads, available, used;
+
+  if (user.email === "demo@storekwil.com") {
+    // Static data for demo user
+    points = 1002;
+    leads = 5;
+    available = 500;
+    used = 500;
+  } else {
+    // Fetch actual data for non-demo users
+    ({ points, leads, available, used } = await fetchUserCardData());
+  }
 
   return (
     <>
-     <Card title="Earned Points" value={points} type="points" />
+      <Card title="Earned Points" value={points} type="points" />
       <Card title="Members Enrolled" value={leads} type="leads" />
       <Card title="Available Balance" value={available} type="available" />
       <Card title="Used Balance" value={used} type="used" />
@@ -88,13 +108,13 @@ const UserCardData = async () => {
   );
 };
 
-const UserInsights= async ({userId}) => {
+const UserInsights = async ({ userId }) => {
   cookies();
   const { points, leads, available, used } = await fetchUserInsights(userId);
 
   return (
     <>
-     <Card title="Earned Points" value={points} type="points" />
+      <Card title="Earned Points" value={points} type="points" />
       <Card title="Members Enrolled" value={leads} type="leads" />
       <Card title="Available Balance" value={available} type="available" />
       <Card title="Used Balance" value={used} type="used" />
@@ -138,4 +158,4 @@ export function Card({ title, value, type }) {
   );
 }
 
-export { HRCardData, CasesCardData, AdminCardData,UserCardData,UserInsights };
+export { HRCardData, CasesCardData, AdminCardData, UserCardData, UserInsights };
